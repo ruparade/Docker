@@ -1,7 +1,14 @@
-FROM alpine:3.14
-WORKDIR /mnt/c/Users/ruparade/GIT/Docker
-RUN "sudo apt install npm"
+#ADDING  base image 
+FROM alpine:3.18 
+RUN apk add --no-cache nodejs npm
+#Adding  workdirectory 
+WORKDIR /app
+#copying file from source to destination 
+COPY package*.json .
+#Running installation dependencies 
+RUN "npm install"
 COPY . .
-ADD todo-project-docker.json . 
+#Exposing port
 EXPOSE 3000
-CMD ["npm", "todo-project-docker.json"]
+#Executing command
+CMD ["npm", "start"]
