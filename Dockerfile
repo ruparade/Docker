@@ -1,14 +1,19 @@
-#ADDING  base image 
-FROM alpine:3.18 
-RUN apk add --no-cache nodejs npm
-#Adding  workdirectory 
+FROM node:18-slim
+
+# Set the working directory inside the container
 WORKDIR /app
-#copying file from source to destination 
-COPY package*.json .
-#Running installation dependencies 
-RUN "npm install"
+
+# Copy package.json and package-lock.json
+COPY package*.json ./
+
+# Install dependencies before copying the rest of the files
+RUN npm install
+
+# Copy the rest of the application
 COPY . .
-#Exposing port
+
+# Expose the port the app runs on
 EXPOSE 3000
-#Executing command
+
+# Command to start the application
 CMD ["npm", "start"]
